@@ -1,0 +1,11 @@
+# OS & editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Raw unoptimized camera originals (preserved locally)
+raw_originals/
+
+# Vercel deployment folder
+.vercel/
