@@ -18,9 +18,9 @@ if (burger && links) {
   links.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
 }
 
-// Fermeture menu au clavier & au redimensionnement
+// Fermeture menu au redimensionnement
 window.addEventListener('resize', () => {
-  if (window.innerWidth > 760 && links.classList.contains('is-open')) {
+  if (window.innerWidth > 760 && links && links.classList.contains('is-open')) {
     setMenu(false);
   }
 });
@@ -50,30 +50,87 @@ const io = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 document.querySelectorAll('.section__head').forEach((el) => io.observe(el));
 
-// Lightbox galerie
+// Lightbox unifiée (Photos & Vidéos)
 const lightbox = document.getElementById('lightbox');
-const lbImg = lightbox ? lightbox.querySelector('img') : null;
+const lbImg = document.getElementById('lbImg');
+const lbVideo = document.getElementById('lbVideo');
+const lbCaption = document.getElementById('lbCaption');
 let lastFocus = null;
+
 const closeLightbox = () => {
   if (!lightbox) return;
   lightbox.hidden = true;
   document.body.style.overflow = '';
+  if (lbVideo) {
+    lbVideo.pause();
+    lbVideo.src = '';
+    lbVideo.style.display = 'none';
+  }
+  if (lbImg) {
+    lbImg.src = '';
+    lbImg.style.display = 'none';
+  }
+  if (lbCaption) lbCaption.textContent = '';
   lastFocus?.focus();
 };
 
-if (lightbox && lbImg) {
-  document.querySelectorAll('.gallery__item').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      lastFocus = btn;
+// Clics Galerie Photos
+document.querySelectorAll('.gallery__item').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    lastFocus = btn;
+    if (lbVideo) {
+      lbVideo.pause();
+      lbVideo.src = '';
+      lbVideo.style.display = 'none';
+    }
+    if (lbImg) {
       lbImg.src = btn.dataset.full;
-      lbImg.alt = btn.querySelector('img') ? btn.querySelector('img').alt : 'Photo agrandie';
-      lightbox.hidden = false;
-      document.body.style.overflow = 'hidden';
-      const closeBtn = lightbox.querySelector('.lightbox__close');
-      if (closeBtn) closeBtn.focus();
-    });
+      lbImg.alt = btn.dataset.title || (btn.querySelector('img') ? btn.querySelector('img').alt : 'Aperçu photo');
+      lbImg.style.display = 'block';
+    }
+    if (lbCaption) lbCaption.textContent = btn.dataset.title || '';
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    const closeBtn = lightbox.querySelector('.lightbox__close');
+    if (closeBtn) closeBtn.focus();
   });
-  lightbox.addEventListener('click', (e) => { if (e.target !== lbImg) closeLightbox(); });
+});
+
+// Clics & Clavier Galerie Vidéos
+document.querySelectorAll('.video-card').forEach((card) => {
+  const openVideo = () => {
+    lastFocus = card;
+    if (lbImg) {
+      lbImg.src = '';
+      lbImg.style.display = 'none';
+    }
+    if (lbVideo) {
+      lbVideo.src = card.dataset.video;
+      lbVideo.style.display = 'block';
+      lbVideo.play().catch(() => {});
+    }
+    if (lbCaption) lbCaption.textContent = card.dataset.title || '';
+    lightbox.hidden = false;
+    document.body.style.overflow = 'hidden';
+    const closeBtn = lightbox.querySelector('.lightbox__close');
+    if (closeBtn) closeBtn.focus();
+  };
+
+  card.addEventListener('click', openVideo);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openVideo();
+    }
+  });
+});
+
+if (lightbox) {
+  lightbox.addEventListener('click', (e) => {
+    if (e.target !== lbImg && e.target !== lbVideo) {
+      closeLightbox();
+    }
+  });
 }
 
 document.addEventListener('keydown', (e) => {
