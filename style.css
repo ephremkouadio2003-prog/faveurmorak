@@ -156,7 +156,11 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .hero__social a:hover { background: var(--wine); color: #fff; }
 .hero__social svg { width: 18px; height: 18px; }
 
-.hero__photo { margin: 0; position: relative; }
+.hero__photo {
+  margin: 0;
+  position: relative;
+  background: radial-gradient(ellipse at 50% 45%, #ffffff 0%, var(--paper) 72%);
+}
 .hero__photo img { width: 100%; height: 100%; object-fit: cover; }
 .hero__badge {
   position: absolute; left: 1.2rem; bottom: 1.2rem;
