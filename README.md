@@ -1,4 +1,4 @@
-# Portfolio — Faveur Morak
+# Portfolio · Faveur Morak
 
 Portfolio professionnel de **Faveur Morak**, consultante en communication digitale, community manager et créatrice de contenus basée à Abidjan, Côte d'Ivoire.
 
@@ -6,7 +6,7 @@ Portfolio professionnel de **Faveur Morak**, consultante en communication digita
 
 - **Domaines :** Communication digitale, Stratégie social media, Tournage & Montage, Storytelling, Community Management
 - **Localisation :** Abidjan, Côte d'Ivoire
-- **Design & UI :** Palette soignée (bordeaux `#5c0f1e` & crème `#fffcf9`), typographie élégante, animations fluides, responsive mobile & desktop
+- **Design & UI :** Palette violet nuit (`#1c1430`) & rose poudré (`#f1d3e3`), typographie Archivo étendue, badge animé, défilement horizontal des réalisations, responsive mobile & desktop
 
 ## 🛠 Technologies
 
